@@ -10,6 +10,8 @@ import { handleRegister } from "@/actions/register"
 import { useState } from "react"
 import { generateOtp } from "@/actions/generate-otp"
 import { verifyOtp } from "@/actions/verify-otp"
+import CardComponent from "@/components/mainComponents/Card"
+
 
 const FormSchema = z.object({
   email: z.string().min(2, {
@@ -92,10 +94,10 @@ function RegisterForm() {
     }
 
     try {
-     const res =  await verifyOtp({ email, otp })
-     console.log(res)
+      const res = await verifyOtp({ email, otp })
+      console.log(res)
       setIsOtpVerified(true)
-      
+
     } catch (error) {
       throw new Error("Error in veriy opt")
     }
@@ -139,68 +141,72 @@ function RegisterForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="example@example.com" {...field} />
-              </FormControl>
-              <FormDescription>
-                Please enter your email to receive the OTP.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="button" onClick={handleGenerateOtp} disabled={isOtpGenerated}>
-          {isOtpGenerated ? "OTP Sent" : "Send OTP"}
-        </Button>
-        {isOtpGenerated && (
-          <>
+    <CardComponent cardTitle="Sign Up" >
+      <Form {...form} >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6 ">
+          <div className="flex items-center gap-2">
             <FormField
               control={form.control}
-              name="otp"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>OTP</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your OTP" {...field} />
+                    <Input placeholder="example@example.com" {...field} />
                   </FormControl>
+                  <FormDescription>
+                    Please enter your email to receive the OTP.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="button" onClick={handleVerifyOtp} disabled={isOtpVerified}>
-              {isOtpVerified ? "OTP Verified" : "Verify OTP"}
+            <Button type="button" onClick={handleGenerateOtp} disabled={isOtpGenerated}>
+              {isOtpGenerated ? "OTP Sent" : "Send OTP"}
             </Button>
-          </>
-        )}
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="******" {...field} />
-              </FormControl>
-              <FormDescription>
-                Please enter a strong password.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
+          </div>
+          {isOtpGenerated && (
+            <>
+              <FormField
+                control={form.control}
+                name="otp"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>OTP</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your OTP" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="button" onClick={handleVerifyOtp} disabled={isOtpVerified}>
+                {isOtpVerified ? "OTP Verified" : "Verify OTP"}
+              </Button>
+            </>
           )}
-        />
-        <Button type="submit" disabled={!isOtpGenerated || !isOtpVerified}>
-          Register
-        </Button>
-      </form>
-    </Form>
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="******" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Please enter a strong password.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" disabled={!isOtpGenerated || !isOtpVerified}>
+            Register
+          </Button>
+        </form>
+      </Form>
+    </CardComponent>
   )
 }
 

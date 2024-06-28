@@ -7,7 +7,9 @@ export async function verifyOtp({email,otp}:{email:string,otp:any}) {
             where:{email}
         })
 
-        if(!user || user.otp != otp || user?.otpExpiresAt < new Date()){
+        if(!user || user.otp != otp){
+            //  user?.otpExpiresAt < new Date()
+            
             throw new Error("Invalid or expired OTP")
         }
 
