@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -47,8 +47,8 @@ function LoginForm() {
     const email = data.email
     const password = data.password
     try {
-      const res = await login({email,password})
-      if(res ){
+      const res = await login({ email, password })
+      if (res) {
         router.push('/')
       }
       console.log(res)
